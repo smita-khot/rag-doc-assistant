@@ -11,3 +11,16 @@ A setting that controls how random or predictable the AI's answers are. A lower 
 
 ## Embeddings
 A way of converting text into numbers that represent its meaning. Text with similar meaning gets converted into similar numbers, which lets the AI compare pieces of text and find related ones.
+
+## Grounded Prompting
+Telling the AI to answer ONLY using specific text I provide, instead of its own general knowledge.
+This matters for my RAG project because I want answers based on my documents, not made-up facts.
+
+Tested 5 prompt variations:
+1. No context given -> AI admitted it didn't know (didn't hallucinate)
+2. Context given, no strict instruction -> answered correctly
+3. Strict "answer only using this text" instruction -> answered correctly and concisely
+4. Strict instruction + "say I don't know if not in text" + question NOT in text -> correctly said "I don't know" instead of guessing
+5. Strict instruction + "say I don't know if not in text" + question IS in text -> answered correctly
+
+Key takeaway: giving explicit permission to say "I don't know" prevents the AI from guessing when it lacks the answer. This is the fallback behavior I'll need for my RAG assistant (July 17).
