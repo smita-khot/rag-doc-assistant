@@ -11,15 +11,13 @@ if not api_key:
 
 client = Groq(api_key=api_key)
 
-def get_response(prompt, temperature=0.2, model="llama-3.1-8b-instant"):
+def get_response(messages, temperature=0.2, model="llama-3.1-8b-instant"):
     """
     Send a prompt to the LLM and return its text response.
     """
     response = client.chat.completions.create(
         model=model,
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
+        messages=messages,
         temperature=temperature
     )
     return response.choices[0].message.content
