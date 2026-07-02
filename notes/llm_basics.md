@@ -32,3 +32,16 @@ Source: https://github.com/supabase/supabase (apps/docs/content/guides/auth)
 License: Supabase docs are open source
 Collected: July 2, 2026
 Count: 32 files (.mdx format)
+
+## Chunking Experiment 
+Tested chunk_size=300/overlap=50 vs chunk_size=150/overlap=30 on a 766-token document.
+
+- 300 tokens -> 4 chunks (last chunk very small: 16 tokens)
+- 150 tokens -> 7 chunks (last chunk still small: 46 tokens, but less extreme)
+
+Observations:
+- Smaller chunks = more precise retrieval (each chunk is more topic-focused) but more chunks to store and search
+- Trailing small chunks happen regardless of chunk size - it's a structural side effect of fixed-size splitting, not something size alone fixes
+- Smaller chunks risk losing surrounding context (sentences can end awkwardly without the next chunk)
+
+Decision: using chunk_size=300, overlap=50 as the default - balances context retention with retrieval precision.
