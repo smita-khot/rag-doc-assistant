@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "question": "How does multi-factor authentication work?",
+    "expected_answer": "MFA requires users to prove two things: something they know (password) and something they have (authenticator app or phone). Supabase supports App Authenticator (TOTP) and phone messaging."
+  },
+  {
+    "id": 2,
+    "question": "How do I reset a user's password?",
+    "expected_answer": "Use the resetPasswordForEmail function, which sends a password reset email with a link the user can click to set a new password."
+  },
+  {
+    "id": 3,
+    "question": "What's the difference between a magic link and a one-time password?",
+    "expected_answer": "A magic link sends a clickable login link to the user's email. An OTP sends a six-digit code the user must manually enter."
+  },
+  {
+    "id": 4,
+    "question": "How does Supabase handle rate limiting for auth requests?",
+    "expected_answer": "Supabase uses a token bucket algorithm with a max capacity of 30 requests per bucket. Exceeding the limit returns a 429 Too Many Requests error."
+  },
+  {
+    "id": 5,
+    "question": "How do I invalidate a user's session?",
+    "expected_answer": "Sessions can be invalidated by signing out, setting a time-box duration, setting an inactivity timeout, or enabling single-session-per-user."
+  },
+  {
+    "id": 6,
+    "question": "What is a JWT and what claims does it contain?",
+    "expected_answer": "A JWT is a JSON Web Token with three parts: Header, Payload, Signature. Required claims include iss, aud, exp, iat, and is_anonymous."
+  },
+  {
+    "id": 7,
+    "question": "How do I set up social login with Google?",
+    "expected_answer": "Create an OAuth client ID in the Google Cloud Console, choose Web application, add authorized origins/redirect URIs, then configure the Client ID and Secret in Supabase."
+  },
+  {
+    "id": 8,
+    "question": "What is a passkey and how does it work?",
+    "expected_answer": "A passkey is a passwordless credential based on WebAuthn, using a private key on the user's device verified via biometrics or PIN, matched against a public key registered with Supabase."
+  },
+  {
+    "id": 9,
+    "question": "How does phone-based login work?",
+    "expected_answer": "Users authenticate via a one-time password sent through SMS or WhatsApp instead of using a password."
+  },
+  {
+    "id": 10,
+    "question": "Can a user have multiple identities linked to one account?",
+    "expected_answer": "Yes, users can have multiple identities linked, and anonymous users can link an identity to become a permanent user."
+  },
+  {
+    "id": 11,
+    "question": "What is the purpose of Row Level Security (RLS) in relation to Auth?",
+    "expected_answer": "RLS integrates with Supabase Auth to control which rows a user can access in the database, based on their authenticated identity."
+  },
+  {
+    "id": 12,
+    "question": "How does CAPTCHA protection work in Supabase Auth?",
+    "expected_answer": "Supabase Auth supports CAPTCHA verification (e.g., via hCaptcha) to prevent bots from abusing auth endpoints like sign-up or sign-in."
+  },
+  {
+    "id": 13,
+    "question": "What happens when audit logging is enabled?",
+    "expected_answer": "Audit logs record authentication-related events for security and compliance monitoring."
+  },
+  {
+    "id": 14,
+    "question": "What is the best programming language for building a mobile app?",
+    "expected_answer": "I don't know based on the provided documents. (This question is unrelated to Supabase Auth documentation and should trigger the fallback.)"
+  },
+  {
+    "id": 15,
+    "question": "How do I sign a user out?",
+    "expected_answer": "Use the sign-out functionality to remove the session from local storage. Note that access tokens remain valid until their expiry."
+  }
+]
