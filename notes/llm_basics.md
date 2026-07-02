@@ -144,3 +144,23 @@ Compared before/after on the same 2 questions:
 Key takeaway: format instructions in the prompt directly control output length/structure without 
 sacrificing accuracy - this is a low-cost way to significantly improve answer usability, since 
 concise answers are more practical for a documentation assistant than long-winded ones.
+
+
+## 10-Question Test Results 
+Ran a structured test across 10 questions spanning most documents. Results saved to 
+eval/test_results.json.
+
+Score: 9/10 fully correct and well-grounded, 1/10 partial.
+
+Failure case: Q7 "How do I set up social login with Google?" - answer leaned on the 
+"identity linking" flow (connecting Google to an existing logged-in user) rather than the 
+basic "sign in with Google from scratch" flow. Also retrieved "Sign in with Web3" as an 
+irrelevant 3rd source. This is the SAME issue - confirms it's a 
+consistent retrieval gap, not a one-off fluke.
+
+Likely cause: the document set may lack a chunk specifically covering basic OAuth sign-in, 
+or that chunk isn't ranking highly enough for this query phrasing.
+
+Action : investigate whether social-login.mdx contains a basic sign-in section 
+that isn't being retrieved, and consider whether increasing top_k or adjusting chunk 
+boundaries improves this.

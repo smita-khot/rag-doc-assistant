@@ -1,0 +1,92 @@
+[
+  {
+    "question": "How does multi-factor authentication work?",
+    "answer": "Multi-factor authentication (MFA) adds an additional layer of security to an application by verifying a user's identity through two verification steps: \n\n1. Something they know (password or access to a social-login account).\n2. Something they have (access to an authenticator app or a mobile phone).\n\nThis requires users to provide proof of both their knowledge and possession of a second factor, making it more difficult for malicious account takeovers.",
+    "sources": [
+      "Multi-Factor Authentication",
+      "Multi-Factor Authentication",
+      "Multi-Factor Authentication"
+    ]
+  },
+  {
+    "question": "How do I reset a user's password?",
+    "answer": "To reset a user's password, you can use the `resetPasswordForEmail` function, which sends a password reset email to the specified email address. The email contains a link that the user can click to reset their password. \n\nHere's an example:\n```javascript\n.resetPasswordForEmail(\n  'valid.email@supabase.io',\n  redirectTo: 'http://example.com/account/update-password',\n);\n```\nThis will send a password reset email to the specified email address, and the user can follow the link to reset their password on the specified page.",
+    "sources": [
+      "Password-based Auth",
+      "Email Templates",
+      "Password security"
+    ]
+  },
+  {
+    "question": "What's the difference between a magic link and a one-time password?",
+    "answer": "The difference between a magic link and a one-time password (OTP) is the content of the confirmation email sent to the user. A magic link sends a link to the user's email, while an OTP sends a six-digit code that the user must enter to log in.",
+    "sources": [
+      "Passwordless email logins",
+      "Users",
+      "Passwordless email logins"
+    ]
+  },
+  {
+    "question": "How does Supabase handle rate limiting for auth requests?",
+    "answer": "Supabase uses a token bucket algorithm for endpoint operations that are limited by IP address. Each bucket has a maximum capacity of 30 requests, and the rate limit defines the rate at which the bucket is refilled. When rate limits are exceeded, a **429 Too Many Requests** error is returned.",
+    "sources": [
+      "Rate limits",
+      "Rate limits",
+      "User sessions"
+    ]
+  },
+  {
+    "question": "How do I invalidate a user's session?",
+    "answer": "To invalidate a user's session, you can remove the session stored in the local storage medium by using the \"Signing out\" functionality. Additionally, you can set a positive value for the \"Time-box user sessions\" option in the Auth settings to terminate sessions after a fixed amount of time, or set a positive duration for the \"Inactivity timeout\" option to terminate sessions that haven't been refreshed within the timeout duration.",
+    "sources": [
+      "Signing out",
+      "User sessions",
+      "User sessions"
+    ]
+  },
+  {
+    "question": "What is a JWT and what claims does it contain?",
+    "answer": "A JWT (JSON Web Token) is a standard structure with three parts: Header, Payload, and Signature. The Payload contains various claims that provide user identity, authentication level, and authorization information. Required claims in a Supabase JWT include `iss`, `aud`, `exp`, `iat`, and `is_anonymous`. Optional claims may include `jti`, `nbf`, `app_metadata`, `user_metadata`, and `amr`.",
+    "sources": [
+      "JWT Claims Reference",
+      "JWT Claims Reference",
+      "JSON Web Token (JWT)"
+    ]
+  },
+  {
+    "question": "How do I set up social login with Google?",
+    "answer": "To set up social login with Google, follow these steps:\n\n1. Set up a social provider with Supabase Auth using the `supabase.auth.linkIdentityWithIdToken()` method.\n2. Use the `googleSignIn.signIn()` method to sign in with Google and obtain an authentication object.\n3. Extract the `idToken` and `accessToken` from the authentication object.\n4. Call `supabase.auth.linkIdentityWithIdToken()` with the `provider` set to `OAuthProvider.google`, `idToken`, and `accessToken` to link the Google identity to the current user.\n\nHere's an example code snippet:\n```js\nfinal googleUser = await googleSignIn.signIn();\nfinal googleAuth = await googleUser!.authentication;\n\n// Link the Google identity to the current user\nfinal response = await supabase.auth.linkIdentityWithIdToken(\n  provider: OAuthProvider.google,\n  idToken: googleAuth.idToken!,\n  accessToken: googleAuth.accessToken!,\n);\n```",
+    "sources": [
+      "Social Login",
+      "Identity Linking",
+      "Sign in with Web3"
+    ]
+  },
+  {
+    "question": "What is a passkey and how does it work?",
+    "answer": "A passkey is a passwordless credential built on the WebAuthn standard. It is a private key stored on a user's device or password manager, which is used to prove possession of the key using biometrics, a PIN, or a hardware security key. The matching public key is registered with Supabase Auth and used to verify future sign-ins.\n\nThe process of using a passkey involves a three-step WebAuthn ceremony:\n\n1. **Options**: the client requests a challenge from Supabase Auth.\n2. **Ceremony**: the platform's passkey API prompts the user for biometrics or a security key.\n3. **Verify**: the signed response is sent back to Supabase Auth, which validates the challenge and either stores the new credential or issues a session.",
+    "sources": [
+      "Passkey authentication",
+      "Passkey authentication",
+      "Passkey authentication"
+    ]
+  },
+  {
+    "question": "How does phone-based login work?",
+    "answer": "Phone-based login works by allowing users to log in to a website or application without using a password. Instead, users authenticate through a one-time password (OTP) sent via a channel, such as SMS or WhatsApp. This method improves the user experience, increases security, and reduces support burden.",
+    "sources": [
+      "Phone Login",
+      "Multi-Factor Authentication",
+      "Multi-Factor Authentication"
+    ]
+  },
+  {
+    "question": "Can a user have multiple identities linked to one account?",
+    "answer": "Yes, a user can have more than one identity. According to the context, a user can have multiple identities associated with them, and anonymous users can link an identity to their user to become a permanent user.",
+    "sources": [
+      "Identities",
+      "Identity Linking",
+      "Users"
+    ]
+  }
+]
