@@ -213,3 +213,23 @@ Key takeaway: an evaluation set is only as good as its expected answers. When wr
 answers without directly checking source documents first, they can be generically "correct" 
 but not aligned with what's actually retrievable from the specific document set - important to 
 verify expected answers against real system output, not just general knowledge.
+
+## Retrieval Quality Improvements 
+Addressed two issues found during evaluation:
+1. Duplicate sources - same document appearing 2-3 times in citations (e.g. MFA doc shown 3x)
+2. Weakly-relevant chunks padding out top_k regardless of true relevance
+
+Fix: increased top_k to 5 candidates, then filtered down to a max of 3 using:
+- A per-chunk distance threshold (reject chunks too weakly related, even if the overall query 
+  passed the fallback check)
+- A diversity filter (skip additional chunks from a document already included)
+
+Retested:
+- MFA and Passkey questions -> now show 1 clean, deduplicated source each (previously 3x duplicates)
+- Session invalidation question -> still correctly shows 3 diverse sources (Signing out, User 
+  sessions, User Management), confirming the filter doesn't over-restrict when multiple documents 
+  are genuinely relevant
+
+Key takeaway: retrieval quality isn't just about finding relevant chunks - it's also about 
+avoiding redundant ones and ensuring true topical diversity when the answer actually spans 
+multiple documents.
