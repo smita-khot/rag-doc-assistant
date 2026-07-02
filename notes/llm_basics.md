@@ -46,7 +46,7 @@ Observations:
 
 Decision: using chunk_size=300, overlap=50 as the default - balances context retention with retrieval precision.
 
-## Vector Search Test (July 13)
+## Vector Search Test 
 Stored 311 chunks with embeddings in ChromaDB. Tested retrieval with two queries:
 
 1. "How does multi-factor authentication work?" -> all 3 results correctly came from the MFA document, 
@@ -57,4 +57,25 @@ Stored 311 chunks with embeddings in ChromaDB. Tested retrieval with two queries
 
 Observation: retrieval quality depends heavily on how specific/clear the query is. Vague questions 
 retrieve vaguely-related results. This is expected and something to watch for when testing with 
-real questions later (July 19).
+real questions later.
+
+## Retrieval Testing 
+Tested 5 sample queries against the vector search system:
+
+1. "How do I reset a user's password?" -> Strong hit (Password-based Auth doc, exact match)
+2. "What is a JWT?" -> Correct topic, but both results came from the same document (JWT Claims 
+   Reference) - less diverse than ideal
+3. "How does social login work?" -> Strong hit (Social Login + related Phone Login)
+4. "What happens when a session expires?" -> Good hit (Signing out + User sessions, both relevant)
+5. "Can users sign in without a password?" -> Strong hit (Users + Password-based Auth)
+
+Result: 4/5 queries retrieved clearly relevant results. Weak spot: JWT query returned 2 chunks 
+from the SAME document instead of diverse sources - not wrong, but redundant. 
+
+Also noted : vague queries (e.g. "extra security step") retrieve weaker, more 
+scattered results compared to specific queries.
+
+Areas to revisit: 
+- Consider whether retrieving from more diverse documents (not just top-K by similarity alone) 
+  would improve result variety
+- Vague queries may need better prompt guidance or query rewriting
