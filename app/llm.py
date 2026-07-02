@@ -21,3 +21,31 @@ def get_response(messages, temperature=0.2, model="llama-3.1-8b-instant"):
         temperature=temperature
     )
     return response.choices[0].message.content
+
+def get_grounded_response(question, retrieved_chunks, temperature=0.2, model="llama-3.1-8b-instant"):
+    """
+    Builds a grounded prompt using retrieved chunks and gets an answer from the LLM.
+    """
+    context = "\n\n".join(
+        f"[Source: {chunk['title']}]\n{chunk['text']}"
+        for chunk in retrieved_chunks
+    )
+
+    prompt = f"""Answer the question using ONLY the information in the context below. 
+If the answer isn't in the context, say "I don't know based on the provided documents."
+
+Context:
+{context}
+
+Question: {question}
+
+Answer:"""
+
+    messages = [{"role": "user", "content": prompt}]
+    
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=temperature
+    )
+    return response.choices[0].message.content

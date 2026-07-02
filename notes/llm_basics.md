@@ -79,3 +79,20 @@ Areas to revisit:
 - Consider whether retrieving from more diverse documents (not just top-K by similarity alone) 
   would improve result variety
 - Vague queries may need better prompt guidance or query rewriting
+
+## First End-to-End RAG Test 
+Connected retrieval + grounded generation into a full pipeline (app/rag.py).
+
+Test 1: "How does multi-factor authentication work?"
+-> Accurate, well-grounded answer, all 3 sources correctly from MFA doc.
+
+Test 2: "How do I set up social login with Google?"
+-> Mostly correct, but 1 of 3 sources ("Sign in with Web3") was unrelated - a weaker semantic 
+match that still made top-3. Answer leaned toward "identity linking" (connecting Google to an 
+existing user) rather than basic sign-in, likely because the retrieved chunks didn't include 
+a chunk about the basic OAuth flow.
+
+Key takeaway: the LLM's answer is only as good as what gets retrieved. If retrieval misses the 
+most relevant chunk, the LLM will still confidently answer using whatever it received - even 
+if it's not quite the full picture. This reinforces why retrieval quality (July 19-20) matters 
+as much as prompt quality.
