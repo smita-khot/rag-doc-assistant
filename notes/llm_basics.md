@@ -96,3 +96,19 @@ Key takeaway: the LLM's answer is only as good as what gets retrieved. If retrie
 most relevant chunk, the LLM will still confidently answer using whatever it received - even 
 if it's not quite the full picture. This reinforces why retrieval quality (July 19-20) matters 
 as much as prompt quality.
+
+## Citations + Live Testing
+Added citation formatting (deduplicated source list) to answers. Wired RAG into the interactive 
+chat (app/main.py).
+
+Tested 3 questions:
+1. "How do I invalidate a user's session?" -> AI said "I don't know" despite retrieving relevant 
+   docs (Signing out, User sessions). Likely a FALSE NEGATIVE - retrieved chunks may not have 
+   contained the exact word "invalidate," causing the strict grounding instruction to be overly 
+   cautious. Flagging for July 17 (fallback behavior) and July 20 (improvements).
+2. "Magic link vs OTP" -> Accurate, clear, well-grounded answer.
+3. "Rate limiting" -> Detailed, accurate answer with specific numbers (30 request bucket, 429 error).
+
+Key finding: strict grounding can cause false "I don't know" answers when relevant info IS 
+present but phrased differently than the question. This is a real tradeoff between avoiding 
+hallucination and being unhelpfully over-cautious.
