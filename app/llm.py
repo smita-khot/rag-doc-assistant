@@ -23,16 +23,15 @@ def get_response(messages, temperature=0.2, model="llama-3.1-8b-instant"):
     return response.choices[0].message.content
 
 def get_grounded_response(question, retrieved_chunks, temperature=0.2, model="llama-3.1-8b-instant"):
-    """
-    Builds a grounded prompt using retrieved chunks and gets an answer from the LLM.
-    """
     context = "\n\n".join(
         f"[Source: {chunk['title']}]\n{chunk['text']}"
         for chunk in retrieved_chunks
     )
 
-    prompt = f"""Answer the question using ONLY the information in the context below. 
-If the answer isn't in the context, say "I don't know based on the provided documents."
+    prompt = f"""Answer the question using the information in the context below. You may paraphrase 
+and combine information across the context, but do not introduce facts that aren't supported by it.
+If the context genuinely doesn't contain relevant information to answer the question, say 
+"I don't know based on the provided documents."
 
 Context:
 {context}

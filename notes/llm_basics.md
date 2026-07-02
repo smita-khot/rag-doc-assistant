@@ -112,3 +112,21 @@ Tested 3 questions:
 Key finding: strict grounding can cause false "I don't know" answers when relevant info IS 
 present but phrased differently than the question. This is a real tradeoff between avoiding 
 hallucination and being unhelpfully over-cautious.
+
+## Fallback Behavior Improvements 
+Fixed two issues:
+
+1. False negative fix: loosened the grounding prompt from "answer ONLY using this text" to 
+   "you may paraphrase and combine information, but don't introduce unsupported facts." This 
+   fixed yesterday's issue where "How do I invalidate a session?" incorrectly returned "I don't 
+   know" despite relevant docs being retrieved. Retested -> now gives an accurate, detailed answer.
+
+2. True fallback via retrieval confidence: added a distance-based check using ChromaDB's 
+   similarity scores. If the best retrieved chunk exceeds a distance threshold (1.3), the system 
+   returns "I don't know" WITHOUT calling the LLM at all - saves an API call and guarantees no 
+   hallucination on clearly irrelevant queries (tested with "What's the best pizza topping?").
+
+Key takeaway: grounding strictness is a tunable tradeoff. Too strict -> false "I don't know" 
+on relevant questions. Too loose -> risk of hallucination. Distance-based fallback (checking 
+retrieval quality directly) is a more reliable signal than relying on the LLM alone to judge 
+relevance.

@@ -1,13 +1,16 @@
 from app.retrieval import search
 from app.llm import get_grounded_response
 
+DISTANCE_THRESHOLD = 1.3  # lower = more similar; tune this based on testing
+
 def ask(question, top_k=3):
-    """
-    Full RAG flow: retrieve relevant chunks, then generate a grounded answer.
-    """
     results = search(question, top_k=top_k)
 
-    # Reformat ChromaDB results into simple chunk dicts
+    # Check if even the best match is too weak
+    best_distance = results["distances"][0][0]
+    if best_distance > DISTANCE_THRESHOLD:
+        return "I don't know based on the provided documents. No sufficiently relevant information was found.", []
+
     retrieved_chunks = []
     for i in range(len(results["ids"][0])):
         retrieved_chunks.append({
@@ -19,9 +22,9 @@ def ask(question, top_k=3):
     return answer, retrieved_chunks
 
 def format_answer_with_citations(answer, sources):
-    """
-    Appends a clean, deduplicated list of sources to the answer.
-    """
+    if not sources:
+        return answer  # no sources to cite if fallback triggered
+
     unique_titles = []
     for chunk in sources:
         if chunk["title"] not in unique_titles:
@@ -31,9 +34,12 @@ def format_answer_with_citations(answer, sources):
     return f"{answer}\n\nSources:\n{citations}"
 
 if __name__ == "__main__":
-    question = "How does multi-factor authentication work?"
-    answer, sources = ask(question)
+    test_questions = [
+        "How do I invalidate a user's session?",
+        "What's the best pizza topping?",
+    ]
 
-    full_response = format_answer_with_citations(answer, sources)
-    print(f"Question: {question}\n")
-    print(full_response)
+    for question in test_questions:
+        answer, sources = ask(question)
+        response = format_answer_with_citations(answer, sources)
+        print(f"Question: {question}\n{response}\n{'-'*60}\n")
