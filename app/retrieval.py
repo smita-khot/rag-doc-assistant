@@ -57,3 +57,28 @@ if __name__ == "__main__":
         print(f"--- Result {i+1} ---")
         print(f"Source: {results['metadatas'][0][i]['title']}")
         print(f"Text: {results['documents'][0][i][:200]}...\n")
+
+def add_uploaded_document(filename, content):
+    """
+    Takes an uploaded file's raw text, chunks it, embeds it, and adds it to the vector store.
+    """
+    from app.chunking import chunk_text
+
+    text_chunks = chunk_text(content)
+    chunk_dicts = [
+        {
+            "chunk_id": f"{filename}_{i}",
+            "source": filename,
+            "title": filename,
+            "chunk_index": i,
+            "text": chunk
+        }
+        for i, chunk in enumerate(text_chunks)
+    ]
+
+    embeddings = model.encode([c["text"] for c in chunk_dicts]).tolist()
+    for chunk, emb in zip(chunk_dicts, embeddings):
+        chunk["embedding"] = emb
+
+    store_chunks(chunk_dicts)
+    return len(chunk_dicts)

@@ -183,3 +183,17 @@ instead of the previous identity-linking-focused answer.
 Key takeaway: not every bad answer is a prompt or retrieval bug - sometimes the source data 
 itself is incomplete. Tracing a failure back to its true root cause (rather than just tuning 
 prompts/thresholds) is an important debugging skill.
+
+## File Upload Feature
+Added dynamic file upload to the Streamlit UI - users can upload .txt/.md files, which are 
+immediately chunked, embedded, and added to the vector store without restarting the app.
+
+Tested with a fake "vacation policy" document - uploaded successfully, and a question about 
+it ("How many vacation days do employees get?") returned the correct answer (20 days), 
+correctly sourced from the uploaded file.
+
+Observation: Sources list also included 2 unrelated Supabase docs (User sessions, Auth Hooks) 
+even though they weren't needed for the answer. This is because top_k=3 always retrieves 3 
+chunks regardless of true relevance - the correct answer only needed 1 chunk. Could improve 
+later by applying a per-chunk distance threshold (similar to the July 17 fallback logic), not 
+just checking the single best match.
