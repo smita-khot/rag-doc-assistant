@@ -164,3 +164,22 @@ or that chunk isn't ranking highly enough for this query phrasing.
 Action : investigate whether social-login.mdx contains a basic sign-in section 
 that isn't being retrieved, and consider whether increasing top_k or adjusting chunk 
 boundaries improves this.
+
+## Chunking/Retrieval Improvement
+Investigated the recurring Q7 failure (Google social login)
+
+Root cause found: NOT a retrieval or chunking problem. The social-login.mdx document is an 
+overview/landing page that links out to separate provider-specific guides (e.g. auth-google.mdx) 
+which were excluded from the original 32-document collection on July 8 (they lived in a 
+subfolder we skipped).
+
+Fix: downloaded the missing auth-google.mdx file, added it to data/raw/, re-ran the full 
+pipeline (embeddings + vector store rebuild) to include it - now 33 documents total.
+
+Retested Q7: "How do I set up social login with Google?" -> now returns accurate, specific 
+setup steps (Client ID/Secret, OAuth client, redirect URIs) sourced from "Login with Google" 
+instead of the previous identity-linking-focused answer.
+
+Key takeaway: not every bad answer is a prompt or retrieval bug - sometimes the source data 
+itself is incomplete. Tracing a failure back to its true root cause (rather than just tuning 
+prompts/thresholds) is an important debugging skill.
