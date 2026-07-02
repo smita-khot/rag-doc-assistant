@@ -35,8 +35,8 @@ def format_answer_with_citations(answer, sources):
 
 if __name__ == "__main__":
     test_questions = [
+        "How does multi-factor authentication work?",
         "How do I invalidate a user's session?",
-        "What's the best pizza topping?",
     ]
 
     for question in test_questions:

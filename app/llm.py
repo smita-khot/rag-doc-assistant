@@ -33,6 +33,10 @@ and combine information across the context, but do not introduce facts that aren
 If the context genuinely doesn't contain relevant information to answer the question, say 
 "I don't know based on the provided documents."
 
+Keep your answer concise and factual - ideally 2-4 sentences, or a short bullet list if the 
+answer naturally involves multiple steps or options. Avoid unnecessary elaboration or repeating 
+the question back.
+
 Context:
 {context}
 

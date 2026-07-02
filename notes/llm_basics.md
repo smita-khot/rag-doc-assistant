@@ -130,3 +130,17 @@ Key takeaway: grounding strictness is a tunable tradeoff. Too strict -> false "I
 on relevant questions. Too loose -> risk of hallucination. Distance-based fallback (checking 
 retrieval quality directly) is a more reliable signal than relying on the LLM alone to judge 
 relevance.
+
+
+## Prompt Format Refinement 
+Added explicit conciseness instructions to the grounding prompt: "2-4 sentences, or a short 
+bullet list... avoid unnecessary elaboration."
+
+Compared before/after on the same 2 questions:
+- MFA answer: went from a long multi-paragraph explanation to a tight 4-sentence summary, 
+  same core facts retained.
+- Session invalidation answer: went from 3 paragraphs to a clean 4-bullet list, easier to scan.
+
+Key takeaway: format instructions in the prompt directly control output length/structure without 
+sacrificing accuracy - this is a low-cost way to significantly improve answer usability, since 
+concise answers are more practical for a documentation assistant than long-winded ones.
