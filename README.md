@@ -6,7 +6,19 @@ Built as a hands-on project to learn and demonstrate core LLM engineering skills
 
 ## Demo
 
-*(Screenshot or GIF goes here)*
+## Demo
+
+### Grounded Q&A with citations
+![Chat interface](docs/screenshot-chat.png)
+
+### Dynamic file upload
+![File upload](docs/screenshot-upload.png)
+
+### Hallucination prevention (fallback behavior)
+![Fallback behavior](docs/screenshot-fallback.png)
+
+### Google Login
+![Google Login](docs/Screenshot-google.png)
 
 ## Features
 
