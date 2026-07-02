@@ -45,3 +45,16 @@ Observations:
 - Smaller chunks risk losing surrounding context (sentences can end awkwardly without the next chunk)
 
 Decision: using chunk_size=300, overlap=50 as the default - balances context retention with retrieval precision.
+
+## Vector Search Test (July 13)
+Stored 311 chunks with embeddings in ChromaDB. Tested retrieval with two queries:
+
+1. "How does multi-factor authentication work?" -> all 3 results correctly came from the MFA document, 
+   even though the query never said "MFA" -> proves semantic search works, not just keyword matching.
+
+2. "How can I add an extra security step when users log in?" (vaguer phrasing) -> only 1 of 3 results 
+   was clearly relevant (MFA); the other 2 (OAuth server, Users) were topically related but not on-target.
+
+Observation: retrieval quality depends heavily on how specific/clear the query is. Vague questions 
+retrieve vaguely-related results. This is expected and something to watch for when testing with 
+real questions later (July 19).
