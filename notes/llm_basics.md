@@ -23,4 +23,12 @@ Tested 5 prompt variations:
 4. Strict instruction + "say I don't know if not in text" + question NOT in text -> correctly said "I don't know" instead of guessing
 5. Strict instruction + "say I don't know if not in text" + question IS in text -> answered correctly
 
-Key takeaway: giving explicit permission to say "I don't know" prevents the AI from guessing when it lacks the answer. This is the fallback behavior I'll need for my RAG assistant (July 17).
+Key takeaway: giving explicit permission to say "I don't know" prevents the AI from guessing when it lacks the answer. This is the fallback behavior I'll need for my RAG assistant .
+
+# Data Source
+
+Documents: Supabase Authentication documentation
+Source: https://github.com/supabase/supabase (apps/docs/content/guides/auth)
+License: Supabase docs are open source
+Collected: July 2, 2026
+Count: 32 files (.mdx format)
