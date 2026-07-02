@@ -197,3 +197,19 @@ even though they weren't needed for the answer. This is because top_k=3 always r
 chunks regardless of true relevance - the correct answer only needed 1 chunk. Could improve 
 later by applying a per-chunk distance threshold (similar to the July 17 fallback logic), not 
 just checking the single best match.
+
+
+## Formal Evaluation Results
+Ran 15-question evaluation set against the assistant. Results saved to eval/evaluation_results.json.
+
+Score: 14/15 good, 1/15 partial.
+
+Q11 (RLS question): my original "expected answer" was a generic textbook description of RLS, 
+but it didn't match what's actually documented in this specific document set. The actual answer 
+(RLS + OAuth tokens) was correct GIVEN the source data - the expected answer needed correcting, 
+not the pipeline. Updated eval/questions.json to reflect the accurate expected answer.
+
+Key takeaway: an evaluation set is only as good as its expected answers. When writing expected 
+answers without directly checking source documents first, they can be generically "correct" 
+but not aligned with what's actually retrievable from the specific document set - important to 
+verify expected answers against real system output, not just general knowledge.

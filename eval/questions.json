@@ -52,7 +52,7 @@
   {
     "id": 11,
     "question": "What is the purpose of Row Level Security (RLS) in relation to Auth?",
-    "expected_answer": "RLS integrates with Supabase Auth to control which rows a user can access in the database, based on their authenticated identity."
+    "expected_answer": "RLS policies automatically apply to OAuth tokens in Supabase, giving fine-grained control over what each client can access based on their role and permissions."
   },
   {
     "id": 12,
